@@ -1,0 +1,10 @@
+/share/
+/Scripts/
+/Lib/
+.env
+/include/
+/temp_processing/
+pyvenv.cfg
+output.srt
+/images/
+/voiceScripts/
