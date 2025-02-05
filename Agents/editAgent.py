@@ -168,7 +168,7 @@ class VideoEditor:
             'ffmpeg', '-y',
             '-f', 'lavfi',
             '-i', f'color=c=black:s={self.width}x{self.height}:d=1',
-            '-vf', 'fade=in:0:5,fade=out:25:5',  # Add fade in/out effect
+            '-vf', 'fade=in:0:1,fade=out:29:1',  # Add fade in/out effect
             '-c:v', 'libx264',
             '-preset', 'medium',
             '-pix_fmt', 'yuv420p',

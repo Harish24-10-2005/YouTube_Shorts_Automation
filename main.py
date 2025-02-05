@@ -13,20 +13,23 @@ from  config.geminiConfig import GeminiChat
 from Agents.contentAgent import ContentAgent
 from Agents.imageGeneration import ImageGenerator
 from Agents.scriptsAgent import ScriptAgent
-from Agents.voiceGeneration import VoiceScriptGenerator
+from Agents.voiceGeneration import VoiceGenerator
 import re 
 import shutil
 
 
 load_dotenv()
 
-HuggingFace_API_Key = os.getenv("HUGGING_FACE") 
+HuggingFace_API_Key = [
+                        os.getenv("HUGGING_FACE1"),
+                        os.getenv("HUGGING_FACE2")
+                    ]
 DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 content_agent = ContentAgent()
 script_agent = ScriptAgent()
-
+voicegenerator = VoiceGenerator()
 
 # Define the directories to delete contents from
 directories_to_delete_contents = [
@@ -48,7 +51,7 @@ for directory in directories_to_delete_contents:
     except Exception as e:
         print(f"Error deleting contents of {directory}: {e}")
 print("=============================================deleted contents===============================================")
-title = "What if dinosaurs present in 2025?"
+title = "What if Dinosaurs Never Went Extinct?"
 print("==============================================generate content===============================================")
 generated_content = content_agent.generate_content_Gemini(title)
 script = script_agent.generate_Scripts_Gemini(generated_content)
@@ -71,25 +74,26 @@ image_prompts = data.get("image_prompts", [])
 print("==============================================generate images===============================================")
 
 # HuggingFace_API_Key = os.getenv("HUGGING_FACE") 
-generator = ImageGenerator(api_key=HuggingFace_API_Key)
-generator.generate_images(image_prompts)
+generator = ImageGenerator(api_keys=HuggingFace_API_Key)
+generator.generate_all_images(image_prompts)
 
 print("==============================================generate voices===============================================")
 
-# DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
-generator = VoiceScriptGenerator(DEEPGRAM_API_KEY)
-responses = generator.generate_voices_from_list(voice_scripts)
-for response in responses:
-    print(response.to_json(indent=4))
+results = voicegenerator.generate_multiple_voices(voice_scripts)
+        
+        # Print results
+for sentence, filepath in results.items():
+    print(f"\nSentence: {sentence}")
+    print(f"Generated file: {filepath}")
 
 print("==============================================edit video===============================================")
 
 try:
     editor = VideoEditor()
     editor.create_final_video(
-        image_dir='images',
-        voice_dir='voicescripts',
-        output_path='output/youtube_shorts.mp4'
+        image_dir='assets\images',
+        voice_dir='assets\VoiceScripts',
+        output_path='output\youtube_shorts.mp4'
     )
 except ValueError as e:
     print(f"Error: {e}")
@@ -100,13 +104,13 @@ except ValueError as e:
 except Exception as e:
     print(f"An error occurred: {e}")
 
-print("==============================================transcribe and caption===============================================")
+# print("==============================================transcribe and caption===============================================")
 
-video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\youtube_shorts.mp4"  
-transcribe_and_caption(video_file)
+# video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\youtube_shorts.mp4"  
+# transcribe_and_caption(video_file)
 
 print("==============================================sync music===============================================")
-synchronizer = VideoMusicSynchronizer('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\assets\Bg_Music\clockbackgrounf.mp3')
-output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\output_with_captions.mp4')
+synchronizer = VideoMusicSynchronizer('assets\Bg_Music\clockbackgrounf.mp3')
+output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\youtube_shorts.mp4')
 print(f"Video with synced music created: {output_video}")
 
