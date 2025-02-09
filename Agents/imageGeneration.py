@@ -8,11 +8,15 @@ load_dotenv()
 
 class ImageGenerator:
     def __init__(self, api_keys, model="stabilityai/stable-diffusion-xl-base-1.0", 
-                 width=576, height=1024, output_dir="assets/images"):
+                 width=576, height=1024, output_dir="assets/images", video_mode: bool = False):
         self.api_keys = api_keys
         self.model = model
-        self.width = width
-        self.height = height
+        if video_mode:
+            self.width = 1920  # YouTube video width
+            self.height = 1080  # YouTube video height
+        else:
+            self.width = 1080  # YouTube Shorts width (portrait)
+            self.height = 1920 # YouTube Shorts height
         self.output_dir = output_dir
         self.key_usage = {key: {'count': 0, 'last_used': 0} for key in api_keys}
         os.makedirs(self.output_dir, exist_ok=True)
@@ -113,5 +117,5 @@ class ImageGenerator:
 #         "Animated text 'Like & Subscribe for more!' with a silhouette of a T-Rex roaring in the background, dynamic and energetic, vibrant colors."
 #     ]
     
-#     generator = ImageGenerator(api_keys)
+#     generator = ImageGenerator(api_keys, video_mode=True)
 #     generator.generate_all_images(prompts)

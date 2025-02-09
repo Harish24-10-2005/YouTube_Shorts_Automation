@@ -84,6 +84,6 @@ class VideoMusicSynchronizer:
 
 # Example usage
 # if __name__ == '__main__':
-#     synchronizer = VideoMusicSynchronizer('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\assets\Bg_Music\clockbackgrounf.mp3')
-#     output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\output_with_captions.mp4')
+#     synchronizer = VideoMusicSynchronizer('assets\Bg_Music\shorts_motivational.mp3')
+#     output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\youtube_shorts.mp4')
 #     print(f"Video with synced music created: {output_video}")

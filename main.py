@@ -51,7 +51,7 @@ for directory in directories_to_delete_contents:
     except Exception as e:
         print(f"Error deleting contents of {directory}: {e}")
 print("=============================================deleted contents===============================================")
-title = "What if Dinosaurs Never Went Extinct?"
+title = input()
 print("==============================================generate content===============================================")
 generated_content = content_agent.generate_content_Gemini(title)
 script = script_agent.generate_Scripts_Gemini(generated_content)
