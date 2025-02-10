@@ -238,24 +238,24 @@ class VideoEditor:
         ]
         subprocess.run(cmd, check=True)
 
-# def main():
-#     try:
-#         editor = VideoEditor(video_mode=True)
-#         editor.create_final_video(
-#             image_dir='assets/images',
-#             voice_dir='assets/VoiceScripts',
-#             output_path='youtube_shorts.mp4',
-#             video_mode=False,
-#             channel="motivation"
-#         )
-#     except ValueError as e:
-#         print(f"Error: {e}")
-#         print("\nPlease ensure you have:")
-#         print("- Exactly twice as many images as voice scripts")
-#         print("- All images in the 'images' folder")
-#         print("- All voice scripts in the 'VoiceScripts' folder")
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
+def main():
+    try:
+        editor = VideoEditor(video_mode=True)
+        editor.create_final_video(
+            image_dir='assets/images',
+            voice_dir='assets/VoiceScripts',
+            output_path='youtube_shorts.mp4',
+            video_mode=False,
+            channel=None
+        )
+    except ValueError as e:
+        print(f"Error: {e}")
+        print("\nPlease ensure you have:")
+        print("- Exactly twice as many images as voice scripts")
+        print("- All images in the 'images' folder")
+        print("- All voice scripts in the 'VoiceScripts' folder")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

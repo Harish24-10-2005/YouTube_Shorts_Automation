@@ -62,7 +62,7 @@ class VideoMusicSynchronizer:
             '-i', self.music_path, 
             '-filter_complex', 
             f'[1:a]atrim=0:{self.get_video_duration(video_path)},asetpts=PTS-STARTPTS[music],' + 
-            '[0:a]volume=6.0[original_loud],' + 
+            '[0:a]volume=10.0[original_loud],' + 
             '[music]volume=1.0[music_low],' + 
             '[original_loud][music_low]amix=inputs=2:duration=first[aout]', 
             '-map', '0:v',  
@@ -82,8 +82,8 @@ class VideoMusicSynchronizer:
         
         return output_path
 
-# Example usage
-# if __name__ == '__main__':
-#     synchronizer = VideoMusicSynchronizer('assets\Bg_Music\shorts_motivational.mp3')
-#     output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\youtube_shorts.mp4')
-#     print(f"Video with synced music created: {output_video}")
+
+if __name__ == '__main__':
+    synchronizer = VideoMusicSynchronizer('assets\Bg_Music\clockbackgrounf.mp3')
+    output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\youtube_shorts.mp4')
+    print(f"Video with synced music created: {output_video}")

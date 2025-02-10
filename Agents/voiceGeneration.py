@@ -4,12 +4,24 @@ import torch
 import gc
 import logging
 from typing import List, Dict, Optional
-
+import torch
+from TTS.tts.configs.xtts_config import XttsConfig
+from TTS.tts.models.xtts import XttsAudioConfig, XttsArgs  # Added XttsArgs
+from TTS.config.shared_configs import BaseDatasetConfig
+from TTS.api import TTS
+# Allow all required configs to be unpickled safely
+torch.serialization.add_safe_globals([
+    XttsConfig,
+    XttsAudioConfig,
+    BaseDatasetConfig,
+    XttsArgs  # Added this to the safe globals
+])
 class VoiceGenerator:
     def __init__(self, 
+                 channel = "ChronoShift_Chronicles",
                  output_folder: str = "assets/VoiceScripts",
                  device: str = "cuda" if torch.cuda.is_available() else "cpu",
-                 model_name: str = "tts_models/en/vctk/vits"):
+                 model_name: str = "tts_models/multilingual/multi-dataset/xtts_v2"):
         """
         Initialize a voice generator using the VITS model.
         
@@ -28,13 +40,15 @@ class VoiceGenerator:
         try:
             os.makedirs(self.output_folder, exist_ok=True)
             self._clear_memory()
-            
+            self.speakerpath = None
             self.logger.info(f"Initializing TTS model {model_name} on {device}")
-            # Initialize the TTS model with progress bar and proper device flag.
-            self.tts = TTS(model_name, progress_bar=True, gpu=(device == "cuda"))
-            # Log available speakers for reference.
-            self.logger.info(f"Available speakers: {self.tts.speakers}")
-            
+            self.tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
+            self.Motivational_speaker_path = "D:/AI_AGENT_FOR_YOUTUBE/Shorts_Agent/assets/clonningVoices/voice_preview_motivational coach.mp3"
+            self.Mysterious_speaker_path = "D:/AI_AGENT_FOR_YOUTUBE/Shorts_Agent/assets/clonningVoices/voice_preview_cartermotivational.mp3"
+            if channel == "motivational":
+                self.speakerpath = self.Motivational_speaker_path
+            else:
+                self.speakerpath = self.Mysterious_speaker_path    
         except Exception as e:
             self.logger.error(f"Error initializing VoiceGenerator: {str(e)}")
             raise
@@ -72,15 +86,14 @@ class VoiceGenerator:
         try:
             self._clear_memory()
             self.logger.info(f"Generating voice for text: {sentence[:50]}...")
-            
+
             self.tts.tts_to_file(
                 text=sentence,
+                speaker_wav=self.speakerpath,
+                language="en",
                 file_path=filepath,
-                speaker=speaker,
-                speed=speed,
                 split_sentences=split_sentences
             )
-            
             self.logger.info(f"Voice generated successfully at: {filepath}")
             return filepath
             
@@ -119,7 +132,7 @@ class VoiceGenerator:
                     sentence,
                     filename,
                     speaker=speaker,
-                    speed=speed,
+                    speed=0.5,   
                     split_sentences=split_sentences
                 )
                 if filepath:
@@ -133,17 +146,23 @@ class VoiceGenerator:
                 
         return results
 
-# Example usage:
+# # Example usage:
 # if __name__ == "__main__":
 #     try:
 #         generator = VoiceGenerator()
         
 #         # Example list of sentences
 #         sentences = [
-#             "In ,the ,depths ,of ,neural, networks,, secrets ,await ,discovery.",
-#             "The ,quantum ,computer ,hums ,with ,infinite, possibilities.",
-#             "Through ,the ,digital ,realm,, information ,flows ,like, water.",
-#             "Algorithms ,dance ,in ,the ,silicon, forest ,of ,computation."
+#             "What if… you unearthed a dusty diary in your attic, its pages filled with impossible events and elegant handwriting?",
+#             "Imagine finding a chilling prophecy about a global blackout, dated 1888. Your heart pounds, and you flip to the next entry.",
+#             "The next entry speaks of future tech beyond dreams, described so vividly, it feels undeniably real; you're not just reading, you're experiencing it.",
+#             "The writer warns of time ripple effects, if technologies fall into the wrong hands. A chill runs down your spine as a connection forms.",
+#             "Each page reveals a piece: historical anomalies, temporal paradox warnings. Then, a pattern emerges.",
+#             "Diary entries mirror current events, predicting them with unnerving accuracy, like yesterday’s earthquake shaking the city.",
+#             "Panic! The most recent entry, dated *tomorrow*, describes a catastrophe in your city…on *your* street.",
+#             "Desperate, you seek a solution, but only find cryptic clues, pointing to a hidden object in your house.",
+#             "Racing against time, you follow the clues to an antique clock. Inside, a secret compartment reveals a tarnished key, But it doesn't unlock any lock you know of.",
+#             "The diary's final entry: 'The key unlocks not a door, but a memory—your own.' Realization dawns: flashes of the future… You are the time traveler."
 #         ]
         
 #         # Generate voices for all sentences using the selected speaker, speed, and sentence splitting.

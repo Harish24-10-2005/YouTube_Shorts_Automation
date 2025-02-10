@@ -1,7 +1,8 @@
 import os
 from typing import Dict
 import streamlit as st
-
+import base64
+from History.history import VideoHistoryTracker
 from config.config import Config
 from utils.videogenerator import VideoGenerator
 from config.config import Config
@@ -19,6 +20,7 @@ class StreamlitInterfaceMotivAition:
     def __init__(self):
         self.config = Config()
         self.video_generator = VideoGenerator(self.config,video_mode=False)
+        self.history_tracker = VideoHistoryTracker()
 
     def setup_page(self):
         # st.set_page_config(page_title="AI-Powered YouTube Video Generator", layout="wide")
@@ -110,14 +112,25 @@ class StreamlitInterfaceMotivAition:
                     if os.path.exists(final_video_path):
                         with open(final_video_path, "rb") as video_file:
                             video_bytes = video_file.read()
-                            st.video(video_bytes)
+                        
+                        video_base64 = base64.b64encode(video_bytes).decode("utf-8")
+                        
+                        video_html = f"""
+                        <div style="display: flex; justify-content: center;">
+                        <video controls style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+                            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        </div>
+                        """
+                        st.markdown(video_html, unsafe_allow_html=True)
                     else:
                         st.error("Final video file not found!")
                         
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
 
-if __name__ == "__main__":
-    app = StreamlitInterfaceMotivAition()
+# if __name__ == "__main__":
+#     app = StreamlitInterfaceMotivAition()
 
-    app.run()
+#     app.run()
