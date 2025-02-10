@@ -8,3 +8,5 @@ pyvenv.cfg
 output.srt
 /images/
 /voiceScripts/
+**/__pycache__/*
+__pycache__/*
