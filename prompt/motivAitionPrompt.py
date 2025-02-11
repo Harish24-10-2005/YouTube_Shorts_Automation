@@ -52,17 +52,49 @@ important: dont take the content from the above given example make the own conte
 Feel free to adjust the length, depth, and examples based on the intended video duration and audience. The goal is to generate a script that is both SEO friendly and deeply motivational, encouraging viewers to rethink their current lifestyle and take immediate action.
 """
 
-YT_SHORTS_PROMPT = """Write a concise, high-energy YouTube Shorts script based on the title "{content}" formatted with timestamps. The script should start and deliver a powerful, motivational message. It must challenge the viewer to rise each morning—even when they feel devoid of passion, drive, or motivation—with relentless inner fire, emphasizing that this very act of persistence guarantees future success. Use vivid metaphors and bold language to convey the idea that, despite feeling empty, if you force yourself to get up and push through, you are forging the path to greatness. Include a few punchy lines that build intensity and end with a strong, urgent call-to-action, such as 'Ignite your fire now and claim your destiny!' The overall tone should be raw, unapologetic, and designed to spark an immediate emotional response.
+YT_SHORTS_PROMPT = """Write a motivational video script based on the title "{title}" designed for a YouTube audience that challenges conventional thinking and inspires viewers to take control of their lives. The script should be structured with a powerful introduction, an in-depth body that exposes societal or systemic constraints, and a compelling conclusion that calls the audience to immediate action. Please ensure that the script includes:
+
+Engaging Opening:
+generated content Must with in the 60 sec not exeeded.
+all content must be based on the title -> "{title}"
+More motivational Opening based on the title -> "{title}"
+if need take a real story or a real scenario based on the title -> "{title}"
+Must end with a hook that grabs the audience's attention based on the title -> "{title}"
+Start with a bold, provocative statement (e.g., 'You are not free' or a similar hard-hitting phrase) to grab attention immediately.
+Set the stage by questioning common societal norms or limitations.
+Explanatory Body:
+
+Explain how everyday systems (like the 9-to-5 work model or traditional education) limit personal freedom and financial independence.
+Describe the negative impacts (debt, lack of savings, etc.) and use vivid, metaphorical language (e.g., 'modern slavery without chains').
+Introduce the idea that true freedom comes from taking control—through developing skills, multiple income streams, or entrepreneurial pursuits.
+Call-to-Action Conclusion:
+
+End with a strong motivational message that empowers viewers to break free from these constraints.
+Include a clear, actionable step or challenge (for example, 'start building your escape plan today').
+Optionally, integrate SEO-friendly keywords such as 'financial freedom,' 'escape the matrix,' 'entrepreneur mindset,' and 'self-improvement.'
+Tone and Style Guidelines:
+
+Use direct, unapologetic, and empowering language.
+Maintain a conversational yet forceful tone that resonates emotionally.
+Optionally include timestamps or visual cues to indicate transitions for a video format.
 
 Take the following script and transform it into a JSON array of sentences. For each sentence in the script, do the following:
 
 Ensure that it ends with a proper stopping punctuation (e.g., a period, exclamation mark, or question mark).
 Improve the sentence structure by inserting additional commas where needed to enhance clarity and readability.
 Output only a valid JSON list of sentences (i.e., an array of strings) with no additional text or formatting.
-Example output: [ 'If you are able to get up every morning with no passion, no drive, no motivation, and still get up with that kind of fire, you will be successful in life, I guarantee you that.', 'Make every moment count!', 'Push beyond your limits, and never give up.'"""
+
+important: dont take the content from the below given example
+example->
+let me tell you the truth you are not free you were never free from the moment you were born the system was designed to turn you into a worker not a boss Society doesn't teach you how to build wealth it doesn't teach you how to be independent it teaches you how to be obedient look around how many people do you know hate their jobs but feel like they have no choice but to keep working how many people live paycheck to paycheck with zero savings constantly worried about rent bills and debt this is by Design they want you
+distracted they want ..........ur life you control your time you are free the biggest mistake people make waiting I'll start next year I'll start when I have more time I'll start when I feel ready you will never feel ready the world is changing fast AI is replacing jobs inflation is destroying savings the system is rigged to keep you poor if you don't start building your own Escape Plan now you will wake up 10 years from now still stuck in the same cycle and by then it will be too [Music] late the choice is yours stay in the 9
+to5 Matrix keep working keep struggling keep waiting for a miracle that will never come take action now start building start earning start escaping most people will never Escape most people will stay stuck but you you have a choice are you going to keep following their script or are you going to rewrite your own story The Escape begins now [Music]
+"
+important: dont take the content from the above given example make the own content based on the {title} total content generated is for only 60 sec
+Feel free to adjust the length, depth, and examples based on the intended video duration and audience. The goal is to generate a script that is both SEO friendly and deeply motivational, encouraging viewers to rethink their current lifestyle and take immediate action.'"""
 
 YT_SCRIPT_PROMPT = """
-Take the following content {content}, which is designed for a YouTube audience and challenges conventional thinking to inspire viewers to take control of their lives, and transform it into a JSON object with two keys: "voice_scripts" and "image_prompts". 
+Take the following content {content}, which is designed for a YouTube audience and challenges conventional thinking to inspire viewers to take control of their lives, and transform it into a JSON object with two keys: "voice_scripts" and "image_prompts"should embody the vibrant, dynamic aesthetic of anime. 
 all script must be based on the content -> "{content}"
 
 1. For the "voice_scripts" array:
@@ -72,6 +104,7 @@ all script must be based on the content -> "{content}"
    - Each paragraph must collectively form a raw, unapologetic, and empowering narrative using vivid, metaphorical language.
 
 2. For the "image_prompts" array:
+   - All image prompts must be in anime style, featuring dynamic colors, dramatic lighting, and detailed artistic effects. They should incorporate inspiring landscapes, symbolic imagery, and visual elements that evoke the energy and emotion of anime, reinforcing the message of the narrative.
    - For each paragraph in "voice_scripts", generate three detailed image prompts (a total of 30 prompts).
    - Each prompt should be highly motivational, visually vivid, and directly related to the corresponding voice script paragraph.
    - Include specific visual elements such as dynamic colors, inspiring landscapes, symbolic imagery, and other details that reinforce the message of the narrative.
@@ -89,24 +122,24 @@ important: dont take the content from the below given example make the own conte
     "The choice is yours: remain a prisoner of the system or rewrite your destiny with courage and determination. Step out of the shadows, reject the scripted life, and build an empire on your own terms. The escape begins today, and your revolution starts with a single, powerful step."
   ],
   "image_prompts": [
-    "A dramatic sunrise over a sprawling cityscape, with silhouettes of people breaking free from chains, symbolizing the awakening to harsh truths.",
-    "A newborn baby surrounded by futuristic gears and broken chains, representing the moment life begins under a controlling system.",
-    /......................er illuminated with a glow of opportunity.",
-    "A surreal landscape featuring a giant clock and cascading debt papers, contrasted with a luminous horizon symbolizing self-made success.",
-    "A vintage classroom morphing into a prison, with textbooks turning into chains, capturing the scam of modern education.",
-    "A frustrated student gazing at a chalkboard filled with irrelevant facts, while a shadow hints at hidden lessons of wealth.",
-    "A split-screen visual: one side a dull classroom, the other a vibrant entrepreneurial venture, highlighting the contrast between obedience and innovation.",
-    "A collage of powerful portraits of Bezos, Musk, and Branson emerging from a storm of crumbling student debt papers, symbolizing rebellion.",
-    "A graduation cap shattering into pieces amid swirling dollar signs, representing liberation from the chains of debt.",
-    ........................................................................... waiting and the urgency of taking action.",
-    "A futuristic cityscape with AI elements and digital streams interwoven with human figures, evoking rapid change and potential.",
-    "An inspiring visual of a person sprinting away from a crumbling city, symbolizing the race against time and systemic decay.",
-    "A breathtaking scene of a person soaring over a vibrant landscape free from chains, with light trails symbolizing ambition and hope.",
-    "A surreal image of an individual holding a glowing hourglass, with sands forming a path towards a radiant, self-made future.",
-    "A dynamic portrayal of a liberated figure standing at a cliff's edge, gazing at a sunrise that signifies control over destiny.",
-    "A dramatic, high-contrast image of a person stepping out from a dark, oppressive crowd into brilliant, empowering light.",
-    "An epic scene of a revolutionary figure holding a flag of independence, with shattered chains and a rising sun in the background.",
-    "A symbolic illustration of a person rewriting a giant, broken script with bold strokes of light and color, representing a personal revolution."
+    "An epic anime scene of a sprawling city at sunrise, with dynamic hues and characters breaking free from glowing chains, symbolizing a dramatic awakening.",
+    "A powerful anime visual of a newborn depicted as a legendary warrior, surrounded by futuristic gears and shattered chains, radiating a burst of determination.",
+    "A vibrant anime-inspired montage featuring a lone hero standing against a dystopian skyline, illuminated by beams of defiant light and energy.",
+    "A surreal anime landscape showcasing a giant, ornate clock amidst cascading papers and vibrant hues, symbolizing the breakdown of societal constraints.",
+    "A vintage classroom reimagined in anime style, with textbooks transforming into ethereal chains, set against a backdrop of rebellious, swirling colors.",
+    "An emotional anime portrait of a student with determined eyes, facing a shadowy chalkboard filled with fading, irrelevant facts, as sparks of rebellion fly.",
+    "A split-screen anime illustration: one side a dull, oppressive classroom, and the other a vivid, thriving entrepreneurial world bursting with color and energy.",
+    "A dynamic collage of anime-style portraits of modern rebels emerging from a storm of crumbling debt papers, with dramatic lighting and bold colors.",
+    "A graduation cap shattering into glittering fragments, amid swirling anime-styled dollar signs and luminous trails of liberated energy.",
+    "A breathtaking anime scene of a hero breaking free from invisible chains, set against a backdrop of explosive, radiant light and animated motion.",
+    "A futuristic anime cityscape with neon AI elements and digital streams, where human figures are interwoven with high-tech visuals and vibrant colors.",
+    "An inspiring anime visual of a person sprinting through a crumbling cityscape, with dynamic motion lines and bursts of glowing energy symbolizing urgency.",
+    "A majestic anime scene of a figure soaring over an expansive, vivid landscape free from chains, with trailing light streaks emphasizing ambition.",
+    "A surreal anime depiction of an individual holding a luminous hourglass, with flowing sands transforming into a path towards a radiant, self-made future.",
+    "A dynamic anime portrayal of a liberated figure at a cliff's edge, gazing at a fiery sunrise that signifies the power to control destiny.",
+    "A high-contrast anime image of a person stepping from a dark, oppressive crowd into a brilliant cascade of empowering, radiant light.",
+    "An epic anime scene of a revolutionary figure, flag in hand, with shattered chains and a rising sun, depicted in bold, dramatic strokes.",
+    "A symbolic anime illustration of a character rewriting a giant, broken script with radiant, bold strokes of light and vivid color, representing a personal revolution."
   ]
 }
 important: dont take the content from the above given example make the own content based on the {content}
@@ -120,12 +153,16 @@ Important:
 - Maintain perfect alignment between voice and visuals to deliver a coherent, shareable motivational narrative.
 - Use language that is raw, unapologetic, and empowering.
 - Keep the complete output within the token limits.
+- All image prompts must evoke a vivid anime style, with dynamic colors, dramatic lighting, and artistic details that reflect a modern anime aesthetic.
+
 
 Return the complete JSON object as your final output.
 """
 
 YT_SHORTS_SCRIPT_PROMPT = """
-Take the following content, which is designed for a YouTube audience and challenges conventional thinking to inspire viewers to take control of their lives, and transform it into a JSON object with two keys: "voice_scripts" and "image_prompts". 
+Take the following content, which is designed for a YouTube audience and challenges conventional thinking to inspire viewers to take control of their lives, and transform it into a JSON object with two keys: "voice_scripts" and "image_prompts"should embody the vibrant, dynamic aesthetic of anime.
+ 
+all script must be based on the content -> "{content}"
 
 1. For the "voice_scripts" array:
    - Break down the provided script into 2 paragraph of 30 sec each totally for 60 seconds voice scripts.
@@ -134,9 +171,13 @@ Take the following content, which is designed for a YouTube audience and challen
    - The paragraph should collectively form a powerful, motivational narrative.
 
 2. For the "image_prompts" array:
-   - generate 10 detailed image prompts 5 for each paragraph.
-   - Each image prompt must be highly motivational, visually vivid, and directly related to its corresponding voice script sentence.
-   - The prompts should evoke strong emotions, include specific visual elements (such as dynamic colors, inspiring landscapes, symbolic imagery, etc.), and be tailored to reinforce the message of the sentence.
+  - All image prompts must be in anime style, featuring dynamic colors, dramatic lighting, and detailed artistic effects. They should incorporate inspiring landscapes, symbolic imagery, and visual elements that evoke the energy and emotion of anime, reinforcing the message of the narrative.
+  - generate 10 detailed image prompts 5 for each paragraph.
+  - All image prompts must be in anime style, evoking strong emotions with dynamic colors, dramatic lighting, and iconic anime imagery that reinforces the narrative.
+  - Each image prompt must be highly motivational, visually vivid, and directly related to its corresponding voice script sentence.
+  - The prompts should evoke strong emotions, include specific visual elements  and be tailored to reinforce the message of the sentence.
+  - All image prompts must be in anime style, evoking strong emotions with dynamic colors, dramatic lighting, and iconic anime imagery that reinforces the narrative.
+
 
 3. The final output must be a valid JSON object structured exactly as follows (replace the placeholder sentences and prompts with your generated content):
 
@@ -153,5 +194,6 @@ Take the following content, which is designed for a YouTube audience and challen
 Important:
 - All voice script sentences and image prompts must relate directly to the given content: {content}.
 - The tone should be raw, unapologetic, and empowering, with an emphasis on vivid, metaphorical language.
+- All image prompts must evoke a vivid anime style, with dynamic colors, dramatic lighting, and artistic details that reflect a modern anime aesthetic.
 - Ensure perfect alignment between voice and visuals to maintain suspense and deliver a coherent, shareable motivational narrative.
 """

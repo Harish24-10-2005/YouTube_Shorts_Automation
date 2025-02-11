@@ -90,6 +90,7 @@ Ensure smooth, logical transitions between scripts so that the entire narrative 
 Each script should be clear, engaging, and emotionally charged—planting questions or mysteries that get answered later.
 - Length: Exactly 6 seconds each if needed more than 6sec also ok
 - First script: Starts with compelling "What if..." hook
+- in curious or best part make hook to viewer to subscribe the channel for more videos
 - each scripts must need to be  7-10 sec long..not more than that and not less
 - only the first voice script  starts with "what if ..."content"..."
 - full voice script need to a linear and understandable format

@@ -1,8 +1,9 @@
-import datetime
+from datetime import datetime
 import json
 import os
 import re
 import shutil
+import pandas as pd
 from typing import Dict, List, Optional, Tuple
 from PIL import Image
 from config.config import Config
@@ -15,10 +16,12 @@ from Agents.captionAgent import transcribe_and_caption
 from Agents.editAgent import VideoEditor
 from utils.utils import DirectoryManager
 import streamlit as st
+from History.history import VideoHistoryTracker
 class VideoGenerator:
     def __init__(self, config: Config,video_mode: bool = False):
         self.content_agent = ContentAgent()
         self.script_agent = ScriptAgent()
+        self.history_tracker = VideoHistoryTracker()
         self.voice_generator = VoiceGenerator()
         self.image_generator = ImageGenerator(api_keys=config.huggingface_api_keys,video_mode=video_mode)
         self.video_editor = VideoEditor(video_mode=video_mode)
@@ -71,6 +74,15 @@ class VideoGenerator:
                      (default is "motivation").
         """
         # Define the root backup folder and the channel folder within it.
+        history_file: str = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\History\Video_generation_history.xlsx"
+        df = pd.read_excel(history_file)
+        
+        # Get the last non-empty channel name
+        last_channel = df['Channel'].dropna().iloc[-1]
+        channel = last_channel
+        print(channel)
+        if(channel == None):
+            channel = "motivation"
         root_dir = "AI_Youtube_backUp"
         dest_channel_dir = os.path.join(root_dir, channel)
         
@@ -111,7 +123,6 @@ class VideoGenerator:
         Returns the path to the final video
         # """
         self.directory_manager.clear_directories([
-            "output",
             os.path.join("assets", "VoiceScripts")
         ])
 
@@ -243,10 +254,10 @@ class VideoGenerator:
             image_prompts=image_prompts
         )
         if include_caption:
-            transcribe_and_caption(output_path)
+            output_path = transcribe_and_caption(output_path,video_mode=video_mode)
         if channel == "motivation":
             if video_mode:
-                bg_music_path = custom_bg_music_path or os.path.join("assets", "Bg_Music", "video_motivational.mp3")
+                bg_music_path = custom_bg_music_path or os.path.join("assets", "Bg_Music", "yt_video_motivational.mp3")
             else:
                 bg_music_path = custom_bg_music_path or os.path.join("assets", "Bg_Music","shorts_motivational.mp3")
         else:

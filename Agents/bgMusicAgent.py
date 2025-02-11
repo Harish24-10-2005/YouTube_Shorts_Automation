@@ -57,19 +57,20 @@ class VideoMusicSynchronizer:
         # FFmpeg command to mix audio with volume adjustments
         try:
             subprocess.run([
-                'ffmpeg', 
-            '-i', video_path, 
-            '-i', self.music_path, 
-            '-filter_complex', 
-            f'[1:a]atrim=0:{self.get_video_duration(video_path)},asetpts=PTS-STARTPTS[music],' + 
-            '[0:a]volume=10.0[original_loud],' + 
-            '[music]volume=1.0[music_low],' + 
-            '[original_loud][music_low]amix=inputs=2:duration=first[aout]', 
-            '-map', '0:v',  
-            '-map', '[aout]',  
-            '-c:v', 'copy',  
-            '-c:a', 'aac', 
-            '-shortest', # Ensure output matches shortest input
+                'ffmpeg',
+                '-i', video_path,
+                '-i', self.music_path,
+                '-filter_complex',
+                f'[0:a]volume=0.8[original];'  # Reduced from 10.0 to 0.8
+                f'[1:a]volume=0.3[music];'      # Adjusted music volume
+                f'[original][music]amix=inputs=2:duration=first:normalize=0,'
+                'loudnorm=I=-16:TP=-1.5:LRA=11[aout]',  # Added normalization
+                '-map', '0:v',
+                '-map', '[aout]',
+                '-c:v', 'copy',
+                '-c:a', 'aac',
+                '-b:a', '192k',  # Added audio bitrate
+                '-shortest',
                 output_path
             ], check=True)
         except subprocess.CalledProcessError as e:
@@ -83,7 +84,7 @@ class VideoMusicSynchronizer:
         return output_path
 
 
-if __name__ == '__main__':
-    synchronizer = VideoMusicSynchronizer('assets\Bg_Music\clockbackgrounf.mp3')
-    output_video = synchronizer.sync_music_to_video('D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\youtube_shorts.mp4')
-    print(f"Video with synced music created: {output_video}")
+# if __name__ == '__main__':
+#     synchronizer = VideoMusicSynchronizer('assets\Bg_Music\yt_video_motivational.mp3')
+#     output_video = synchronizer.sync_music_to_video("D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\output_with_glowing_captions.mp4")
+#     print(f"Video with synced music created: {output_video}")

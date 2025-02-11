@@ -12,7 +12,7 @@ def format_timestamp(seconds):
     milliseconds = int(round((td.total_seconds() - int(td.total_seconds())) * 1000))
     return f"{hours:02d}:{minutes:02d}:{secs:02d},{milliseconds:03d}"
 
-def transcribe_and_caption(video_path, output_path="output.srt", model_name="base", offset=0.1):
+def transcribe_and_caption(video_path, output_path="output.srt", model_name="base", offset=0.1,video_mode = False):
     """
     Transcribe video and create caption file with word-level timestamps.
     A small offset (in seconds) is added to each word's end timestamp for better sync.
@@ -74,23 +74,40 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
         
         # Calculate font size proportional to video height
         font_size = int(height * 0.007)
-        
+        if video_mode:
+            font_size = int(height * 0.02)
         # Build FFmpeg command using filter_complex to create a glowing subtitle effect:
         ffmpeg_command = [
             "ffmpeg", "-i", video_path,
-            "-vf", (
-                f"subtitles={output_path}:force_style='"
-                f"Alignment=2,"                # Center alignment
-                f"FontName=Impact,"            # Bold font
-                f"FontSize={int(height * 0.04)}," # Font size (4% of video height)
-                f"PrimaryColour=&H00FFD700&,"  # Gold color (BGR: 00 D7 FF)
-                f"OutlineColour=&H60FFD700&,"  # Semi-transparent gold outline
-                f"Shadow=0,"                   # No shadow
-                f"BorderStyle=1,"              # Outline only
-                f"Outline=3,"                  # Thicker outline for glow effect
-                f"MarginV={bottom_padding}'"   # Bottom margin
+            "-filter_complex",
+            (
+                # Split into three streams.
+                f"[0:v]split=3[base][glow][sharp]; "
+                # Glow layer: use a thick outline (Outline=8), no shadow, no back color.
+                f"[glow]subtitles={output_path}:force_style='FontName=Impact,"
+                f"FontSize={font_size},"
+                f"PrimaryColour=&H00FFD700&,"
+                f"Outline=8,"
+                f"Shadow=0,"
+                f"BorderStyle=1,"
+                f"Alignment=2,"
+                f"MarginV={bottom_padding}'[s_glow]; "
+                # Apply heavy blur to the glow layer.
+                f"[s_glow]boxblur=20:20[s_blur]; "
+                # Sharp layer: clean golden text with no outline.
+                f"[sharp]subtitles={output_path}:force_style='FontName=Impact,"
+                f"FontSize={font_size},"
+                f"PrimaryColour=&H00FFD700&,"
+                f"Outline=0,"
+                f"Shadow=0,"
+                f"BorderStyle=1,"
+                f"Alignment=2,"
+                f"MarginV={bottom_padding}'[s_sharp]; "
+                # Overlay the blurred glow over the base, then overlay the sharp text.
+                f"[base][s_blur]overlay[tmp]; "
+                f"[tmp][s_sharp]overlay"
             ),
-            "-c:v", "libx264", 
+            "-c:v", "libx264",
             "-preset", "fast",
             "-crf", "23",
             "-c:a", "aac",
@@ -103,12 +120,12 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
         subprocess.run(ffmpeg_command, check=True)
         
         print(f"Process completed! Captioned video saved as {output_video}")
-        return True
+        return output_video
         
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-        return False
+        return None
 
 # # Example usage:
-# video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\motiv_shorts.mp4"
-# transcribe_and_caption(video_file)
+# video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\youtube_with_music.mp4"
+# output_video = transcribe_and_caption(video_file)
