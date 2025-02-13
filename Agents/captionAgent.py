@@ -127,5 +127,5 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
         return None
 
 # # Example usage:
-# video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\output\youtube_with_music.mp4"
+# video_file = r"D:\AI_AGENT_FOR_YOUTUBE\Shorts_Agent\youtube_shorts.mp4"
 # output_video = transcribe_and_caption(video_file)

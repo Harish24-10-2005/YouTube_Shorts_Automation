@@ -9,9 +9,11 @@ class VideoEditor:
     def __init__(self,video_mode: bool = False):
         self.temp_dir = tempfile.mkdtemp()
         if video_mode:
+            print("Video mode")
             self.width = 1920  # YouTube video width
             self.height = 1080  # YouTube video height
         else:
+            print("Shorts mode")
             self.width = 1080  # YouTube Shorts width (portrait)
             self.height = 1920 # YouTube Shorts height
         
@@ -240,7 +242,7 @@ class VideoEditor:
 
 def main():
     try:
-        editor = VideoEditor(video_mode=True)
+        editor = VideoEditor(video_mode=False)
         editor.create_final_video(
             image_dir='assets/images',
             voice_dir='assets/VoiceScripts',

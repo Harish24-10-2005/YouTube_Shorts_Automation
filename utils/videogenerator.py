@@ -149,6 +149,7 @@ class VideoGenerator:
         else:
         # This part of the code is responsible for generating voice scripts and image prompts based on
         # the content provided. Here's a breakdown of what it does:
+            print("Generating voice scripts and image prompts...")
             script_output = self.script_agent.generate_Scripts_Gemini(content, channel=channel,video_mode=video_mode)
             voice_scripts, image_prompts = self._parse_script_output(script_output)
         st.header("Voice Scripts")

@@ -147,31 +147,31 @@ class VoiceGenerator:
         return results
 
 # # Example usage:
-# if __name__ == "__main__":
-#     try:
-#         generator = VoiceGenerator()
+if __name__ == "__main__":
+    try:
+        generator = VoiceGenerator(channel="ChronoShift_Chronicles")
         
-#         # Example list of sentences
-#         sentences = [
-#             "What if… you unearthed a dusty diary in your attic, its pages filled with impossible events and elegant handwriting?",
-#             "Imagine finding a chilling prophecy about a global blackout, dated 1888. Your heart pounds, and you flip to the next entry.",
-#             "The next entry speaks of future tech beyond dreams, described so vividly, it feels undeniably real; you're not just reading, you're experiencing it.",
-#             "The writer warns of time ripple effects, if technologies fall into the wrong hands. A chill runs down your spine as a connection forms.",
-#             "Each page reveals a piece: historical anomalies, temporal paradox warnings. Then, a pattern emerges.",
-#             "Diary entries mirror current events, predicting them with unnerving accuracy, like yesterday’s earthquake shaking the city.",
-#             "Panic! The most recent entry, dated *tomorrow*, describes a catastrophe in your city…on *your* street.",
-#             "Desperate, you seek a solution, but only find cryptic clues, pointing to a hidden object in your house.",
-#             "Racing against time, you follow the clues to an antique clock. Inside, a secret compartment reveals a tarnished key, But it doesn't unlock any lock you know of.",
-#             "The diary's final entry: 'The key unlocks not a door, but a memory—your own.' Realization dawns: flashes of the future… You are the time traveler."
-#         ]
+        # Example list of sentences
+        sentences = [
+            "What if… you blinked, and suddenly, you're standing on the Free Fire spawn island? Prepare for a shocking, real-life battle royale!",
+    "Humid air, engine roars, fear... it's all real now. A countdown ticks relentlessly. Subscribe for more intense scenarios!",
+    "Your heart pounds, adrenaline spikes. A gloo wall grenade! Instinct kicks in, remembering victories. This time it’s survival.",
+    "Timer's at zero! Brace yourself! The jump is coming. Get ready for a desperate scramble for gear. The chaos awaits below!",
+    "Freefalling! The wind screams as you scan for a safe landing. Red flares signal high-tier loot. Where will you land?",
+    "A rooftop! You glide expertly, skills honed from countless hours. Landing: graceful, near a supply crate. Time to gear up!",
+    "AK47 and a level-two helmet! A small win against the odds. Confidence surges. But can you really survive this nightmare?",
+    "Footsteps! Your triumph is shattered. Virtual instincts take over. Cover behind a barrel, ready to defend at any cost. Danger!",
+    "A player armed with a pistol! Hesitation flickers, then vanishes as a bullet whizzes past your ear. It's game on, now!",
+    "AK47 raised, finger trembling. In this real-life Free Fire, only one survives. Are you ready to fight until the very end?"
+        ]
         
-#         # Generate voices for all sentences using the selected speaker, speed, and sentence splitting.
-#         results = generator.generate_multiple_voices(sentences)
+        # Generate voices for all sentences using the selected speaker, speed, and sentence splitting.
+        results = generator.generate_multiple_voices(sentences)
         
-#         # Print results
-#         for sentence, filepath in results.items():
-#             print(f"\nSentence: {sentence}")
-#             print(f"Generated file: {filepath}")
+        # Print results
+        for sentence, filepath in results.items():
+            print(f"\nSentence: {sentence}")
+            print(f"Generated file: {filepath}")
             
-#     except Exception as e:
-#         print(f"Error in main: {str(e)}")
+    except Exception as e:
+        print(f"Error in main: {str(e)}")
