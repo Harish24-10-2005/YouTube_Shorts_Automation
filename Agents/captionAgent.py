@@ -86,7 +86,7 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
                 # Glow layer: use a thick outline (Outline=8), no shadow, no back color.
                 f"[glow]subtitles={output_path}:force_style='FontName=Impact,"
                 f"FontSize={font_size},"
-                f"PrimaryColour=&H00FFD700&,"
+                f"PrimaryColour=&HFFFFFF&,"
                 f"Outline=8,"
                 f"Shadow=0,"
                 f"BorderStyle=1,"
@@ -94,10 +94,10 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
                 f"MarginV={bottom_padding}'[s_glow]; "
                 # Apply heavy blur to the glow layer.
                 f"[s_glow]boxblur=20:20[s_blur]; "
-                # Sharp layer: clean golden text with no outline.
+                # Sharp layer: clean white text with no outline.
                 f"[sharp]subtitles={output_path}:force_style='FontName=Impact,"
                 f"FontSize={font_size},"
-                f"PrimaryColour=&H00FFD700&,"
+                f"PrimaryColour=&HFFFFFF&,"
                 f"Outline=0,"
                 f"Shadow=0,"
                 f"BorderStyle=1,"
@@ -114,7 +114,6 @@ def transcribe_and_caption(video_path, output_path="output.srt", model_name="bas
             "-b:a", "128k",
             output_video
         ]
-
         
         print("Adding glowing captions to video...")
         subprocess.run(ffmpeg_command, check=True)
